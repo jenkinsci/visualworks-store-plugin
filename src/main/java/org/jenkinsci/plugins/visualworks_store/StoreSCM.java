@@ -330,7 +330,7 @@ public class StoreSCM extends SCM {
 
         @Override
         public String getDisplayName() {
-            return "Store";
+            return "Visualworks Store";
         }
 
         @Override
