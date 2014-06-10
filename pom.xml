@@ -59,10 +59,10 @@
 
   <scm>
     <connection>
-      scm:git:https://github.com/jenkinsci/visualworks-store-plugin.git
+      scm:git:ssh://github.com/jenkinsci/visualworks-store-plugin.git
     </connection>
     <developerConnection>
-      scm:git:https://github.com/jenkinsci/visualworks-store-plugin.git
+      scm:git:ssh://github.com/jenkinsci/visualworks-store-plugin.git
     </developerConnection>
     <url>http://github.com/jenkinsci/visualworks-store-plugin</url>
   </scm>
