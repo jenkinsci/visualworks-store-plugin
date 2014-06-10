@@ -59,12 +59,12 @@
 
   <scm>
     <connection>
-      scm:git:https://github.com/randycoulman/visualworks-store-plugin.git
+      scm:git:https://github.com/jenkinsci/visualworks-store-plugin.git
     </connection>
     <developerConnection>
-      scm:git:https://github.com/randycoulman/visualworks-store-plugin.git
+      scm:git:https://github.com/jenkinsci/visualworks-store-plugin.git
     </developerConnection>
-    <url>http://github.com/randycoulman/visualworks-store-plugin</url>
+    <url>http://github.com/jenkinsci/visualworks-store-plugin</url>
   </scm>
 
   <repositories>
