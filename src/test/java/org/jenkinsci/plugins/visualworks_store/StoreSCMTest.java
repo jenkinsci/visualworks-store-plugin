@@ -93,7 +93,7 @@ public class StoreSCMTest {
                 new PundleSpec(PundleType.PACKAGE, "Package"));
         StoreSCM scm = new StoreSCM("Default", "Repo", pundles, "\\d+", "Development", false, "");
 
-        ArgumentListBuilder builder = scm.prepareCheckoutCommand("storeScript", lastBuildTime, currentBuildTime, new File("/path/to/changelog.xml"));
+        ArgumentListBuilder builder = scm.prepareCheckoutCommand("storeScript", lastBuildTime, currentBuildTime, "/path/to/changelog.xml");
 
         assertEquals("storeScript -repository Repo -package Package -versionRegex \\d+ -blessedAtLeast Development -since \"03/07/2012 15:28:35.000\" -now \"06/15/2012 07:23:42.000\" -changelog /path/to/changelog.xml",
                 builder.toStringWithQuote());
@@ -105,7 +105,7 @@ public class StoreSCMTest {
                 new PundleSpec(PundleType.BUNDLE, "Bundle"));
         StoreSCM scm = new StoreSCM("Default", "Repo", pundles, "\\d+", "Development", false, "");
 
-        ArgumentListBuilder builder = scm.prepareCheckoutCommand("storeScript", lastBuildTime, currentBuildTime, new File("/path/to/changelog.xml"));
+        ArgumentListBuilder builder = scm.prepareCheckoutCommand("storeScript", lastBuildTime, currentBuildTime, "/path/to/changelog.xml");
 
         assertContains(builder.toStringWithQuote(), "-bundle Bundle");
     }
@@ -118,7 +118,7 @@ public class StoreSCMTest {
                 new PundleSpec(PundleType.PACKAGE, "Package with Spaces"));
         StoreSCM scm = new StoreSCM("Default", "Repo", pundles, "\\d+", "Development", false, "");
 
-        ArgumentListBuilder builder = scm.prepareCheckoutCommand("storeScript", lastBuildTime, currentBuildTime, new File("changelog.xml"));
+        ArgumentListBuilder builder = scm.prepareCheckoutCommand("storeScript", lastBuildTime, currentBuildTime, "changelog.xml");
 
         assertContains(builder.toStringWithQuote(),
                 "-package Package -bundle Bundle -package \"Package with Spaces\"");
@@ -130,7 +130,7 @@ public class StoreSCMTest {
                 new PundleSpec(PundleType.PACKAGE, "Package"));
         StoreSCM scm = new StoreSCM("Default", "Repo", pundles, "\\d+", "Development", true, "parcelsToBuild");
 
-        ArgumentListBuilder builder = scm.prepareCheckoutCommand("storeScript", lastBuildTime, currentBuildTime, new File("changelog.xml"));
+        ArgumentListBuilder builder = scm.prepareCheckoutCommand("storeScript", lastBuildTime, currentBuildTime, "changelog.xml");
 
         assertContains(builder.toStringWithQuote(),
                 "-parcelBuilderFile parcelsToBuild");

@@ -174,8 +174,11 @@ public class StoreSCM extends SCM {
             return false;
         }
 
+        FilePath localChangeLogFile = workspace.createTempFile("store", ".xml");
+
         ArgumentListBuilder builder = prepareCheckoutCommand(storeScript.getPath(),
-                lastBuildTime, build.getTimestamp(), changeLogFile);
+                lastBuildTime, build.getTimestamp(),
+                localChangeLogFile.getRemote());
 
         String output;
         try {
@@ -184,7 +187,10 @@ public class StoreSCM extends SCM {
             throw new AbortException("Error launching command");
         }
 
-        if (!changeLogFile.exists()) {
+        if (localChangeLogFile.exists()) {
+            localChangeLogFile.copyTo(new FilePath(changeLogFile));
+            localChangeLogFile.delete();
+        } else {
             createEmptyChangeLog(changeLogFile, buildListener, "log");
         }
 
@@ -254,7 +260,7 @@ public class StoreSCM extends SCM {
 
     ArgumentListBuilder prepareCheckoutCommand(String storeScript,
                                                Calendar lastBuildTime, Calendar currentBuildTime,
-                                               File changeLogFile) {
+                                               String changeLogFilename) {
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
         formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
@@ -266,7 +272,7 @@ public class StoreSCM extends SCM {
         builder.add("-blessedAtLeast", minimumBlessingLevel);
         builder.add("-since", formatter.format(lastBuildTime.getTime()));
         builder.add("-now", formatter.format(currentBuildTime.getTime()));
-        builder.add("-changelog", changeLogFile.getPath());
+        builder.add("-changelog", changeLogFilename);
 
         if (generateParcelBuilderInputFile) {
             builder.add("-parcelBuilderFile", parcelBuilderInputFilename);
