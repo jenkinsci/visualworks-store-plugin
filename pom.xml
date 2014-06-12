@@ -32,7 +32,7 @@
   </parent>
 
   <artifactId>visualworks-store</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Jenkins Visualworks Store Plugin</name>
   <description>
