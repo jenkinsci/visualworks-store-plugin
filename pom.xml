@@ -32,7 +32,7 @@
   </parent>
 
   <artifactId>visualworks-store</artifactId>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.1.1</version>
   <packaging>hpi</packaging>
   <name>Jenkins Visualworks Store Plugin</name>
   <description>
@@ -65,6 +65,7 @@
       scm:git:ssh://git@github.com/jenkinsci/visualworks-store-plugin.git
     </developerConnection>
     <url>http://github.com/jenkinsci/visualworks-store-plugin</url>
+    <tag>visualworks-store-1.1.1</tag>
   </scm>
 
   <repositories>
