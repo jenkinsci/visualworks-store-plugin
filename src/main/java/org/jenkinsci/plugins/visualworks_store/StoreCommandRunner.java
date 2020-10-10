@@ -33,7 +33,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 class StoreCommandRunner {
-    String runCommand(ArgumentListBuilder builder, Launcher launcher, FilePath workspace, TaskListener listener) throws StoreCommandFailure, IOException, InterruptedException {
+    String runCommand(ArgumentListBuilder builder, Launcher launcher, FilePath workspace, TaskListener listener)
+            throws StoreCommandFailure, IOException, InterruptedException {
         if (launcher == null) {
             launcher = new Launcher.LocalLauncher(listener);
         }
@@ -43,11 +44,11 @@ class StoreCommandRunner {
 
         int rc = launcher.launch().pwd(workspace).cmds(builder).stdout(outputStream).stderr(errorStream).join();
         if (rc != 0) {
-            listener.getLogger().println("Error running command: " + errorStream.toString());
-            throw new StoreCommandFailure(errorStream.toString());
+            listener.getLogger().println("Error running command: " + errorStream.toString("UTF-8"));
+            throw new StoreCommandFailure(errorStream.toString("UTF-8"));
         }
 
-        return outputStream.toString();
+        return outputStream.toString("UTF-8");
     }
 }
 
