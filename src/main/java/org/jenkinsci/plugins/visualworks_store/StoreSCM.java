@@ -24,7 +24,6 @@
 
 package org.jenkinsci.plugins.visualworks_store;
 
-
 import hudson.*;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
@@ -74,8 +73,8 @@ public class StoreSCM extends SCM {
     private final String minimumBlessingLevel;
 
     /**
-     * True if a file should be generated that contains a list of pundle
-     * versions to load into a new image using a tool such as ParcelBuilder.
+     * True if a file should be generated that contains a list of pundle versions to
+     * load into a new image using a tool such as ParcelBuilder.
      * <p/>
      * False if no such file should be generated.
      */
@@ -92,11 +91,8 @@ public class StoreSCM extends SCM {
     private String scriptName;
 
     @DataBoundConstructor
-    public StoreSCM(String scriptName, String repositoryName,
-                    List<PundleSpec> pundles, String versionRegex,
-                    String minimumBlessingLevel,
-                    boolean generateParcelBuilderInputFile,
-                    String parcelBuilderInputFilename) {
+    public StoreSCM(String scriptName, String repositoryName, List<PundleSpec> pundles, String versionRegex,
+            String minimumBlessingLevel, boolean generateParcelBuilderInputFile, String parcelBuilderInputFilename) {
         if (pundles == null) {
             pundles = new ArrayList<PundleSpec>();
         }
@@ -116,8 +112,7 @@ public class StoreSCM extends SCM {
 
     @Override
     protected PollingResult compareRemoteRevisionWith(AbstractProject<?, ?> project, Launcher launcher,
-                                                      FilePath workspace, TaskListener taskListener,
-                                                      SCMRevisionState _baseline)
+            FilePath workspace, TaskListener taskListener, SCMRevisionState _baseline)
             throws IOException, InterruptedException {
         final AbstractBuild<?, ?> lastBuild = project.getLastBuild();
         if (lastBuild == null) {
@@ -127,11 +122,14 @@ public class StoreSCM extends SCM {
 
         StoreRevisionState baseline = (StoreRevisionState) _baseline;
 
-        // If the Multiple SCMs plugin is being used to check different Store repositories,
-        // we may be passed a baseline for a different repository.  Handle that by going to
+        // If the Multiple SCMs plugin is being used to check different Store
+        // repositories,
+        // we may be passed a baseline for a different repository. Handle that by going
+        // to
         // look for the correct baseline in the build.
         //
-        // In the normal case (only one repository), we will have the correct baseline and
+        // In the normal case (only one repository), we will have the correct baseline
+        // and
         // don't need to do the extra work.
         if (!isRelevantRevisionState(baseline)) {
             baseline = findCorrectBaseline(lastBuild);
@@ -164,7 +162,7 @@ public class StoreSCM extends SCM {
 
     @Override
     public boolean checkout(AbstractBuild<?, ?> build, Launcher launcher, FilePath workspace,
-                            BuildListener buildListener, File changeLogFile) throws IOException, InterruptedException {
+            BuildListener buildListener, File changeLogFile) throws IOException, InterruptedException {
         AbstractBuild<?, ?> lastBuild = build.getPreviousBuild();
         Calendar lastBuildTime = lastBuild == null ? midnight() : lastBuild.getTimestamp();
 
@@ -176,8 +174,7 @@ public class StoreSCM extends SCM {
 
         FilePath localChangeLogFile = workspace.createTempFile("store", ".xml");
 
-        ArgumentListBuilder builder = prepareCheckoutCommand(storeScript.getPath(),
-                lastBuildTime, build.getTimestamp(),
+        ArgumentListBuilder builder = prepareCheckoutCommand(storeScript.getPath(), lastBuildTime, build.getTimestamp(),
                 localChangeLogFile.getRemote());
 
         String output;
@@ -207,9 +204,9 @@ public class StoreSCM extends SCM {
 
     @Override
     public SCMRevisionState calcRevisionsFromBuild(AbstractBuild<?, ?> abstractBuild, Launcher launcher,
-                                                   TaskListener taskListener)
-            throws IOException, InterruptedException {
-        // The revision state is added to the build as part of checkout(), so this will not be called.
+            TaskListener taskListener) throws IOException, InterruptedException {
+        // The revision state is added to the build as part of checkout(), so this will
+        // not be called.
         return null;
     }
 
@@ -258,9 +255,8 @@ public class StoreSCM extends SCM {
         return builder;
     }
 
-    ArgumentListBuilder prepareCheckoutCommand(String storeScript,
-                                               Calendar lastBuildTime, Calendar currentBuildTime,
-                                               String changeLogFilename) {
+    ArgumentListBuilder prepareCheckoutCommand(String storeScript, Calendar lastBuildTime, Calendar currentBuildTime,
+            String changeLogFilename) {
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss.SSS");
         formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
@@ -299,7 +295,8 @@ public class StoreSCM extends SCM {
                 }
             }
 
-            if (!revisionStates.isEmpty()) return null;
+            if (!revisionStates.isEmpty())
+                return null;
         }
         return null;
     }
@@ -348,8 +345,8 @@ public class StoreSCM extends SCM {
         }
 
         /**
-         * Generates a list of the standard Store blessing levels for use in
-         * the configuration form.
+         * Generates a list of the standard Store blessing levels for use in the
+         * configuration form.
          *
          * @return The list of blessing levels.
          */
@@ -387,7 +384,7 @@ public class StoreSCM extends SCM {
         }
 
         public StoreScript[] getStoreScripts() {
-            return storeScripts;
+            return storeScripts.clone();
         }
 
         public void setStoreScripts(StoreScript... scripts) {
