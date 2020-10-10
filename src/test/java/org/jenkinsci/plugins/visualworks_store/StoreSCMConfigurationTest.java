@@ -26,19 +26,28 @@ package org.jenkinsci.plugins.visualworks_store;
 
 import hudson.model.FreeStyleProject;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.junit.Rule;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-//@Ignore("Too slow")
-public class StoreSCMConfigurationTest extends JenkinsRule {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class StoreSCMConfigurationTest {
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
+
+    @Test
     public void testGlobalConfigurationRoundtrip() throws Exception {
-        StoreSCM.DescriptorImpl descriptor = jenkins.getDescriptorByType(StoreSCM.DescriptorImpl.class);
+        StoreSCM.DescriptorImpl descriptor = j.jenkins.getDescriptorByType(StoreSCM.DescriptorImpl.class);
 
         descriptor.setStoreScripts(new StoreScript("7.7.1", "/path/to/script-7.7.1"),
                 new StoreScript("7.9.1", "/path/to/script-7.9.1"));
 
-        submit(createWebClient().goTo("configure").getFormByName("config"));
+        j.submit(j.createWebClient().goTo("configure").getFormByName("config"));
 
         StoreScript[] scripts = descriptor.getStoreScripts();
         assertEquals("installation count", 2, scripts.length);
@@ -48,8 +57,9 @@ public class StoreSCMConfigurationTest extends JenkinsRule {
         assertEquals("second script path", "/path/to/script-7.9.1", scripts[1].getPath());
     }
 
+    @Test
     public void testBasicConfigurationRoundtrip() throws Exception {
-        StoreSCM.DescriptorImpl descriptor = jenkins.getDescriptorByType(StoreSCM.DescriptorImpl.class);
+        StoreSCM.DescriptorImpl descriptor = j.jenkins.getDescriptorByType(StoreSCM.DescriptorImpl.class);
         descriptor.setStoreScripts(new StoreScript("theScript", "path"));
 
         List<PundleSpec> pundleSpecs = onePundle();
@@ -65,8 +75,9 @@ public class StoreSCMConfigurationTest extends JenkinsRule {
         assertEquals("parcelBuilderInputFilename", "", loaded.getParcelBuilderInputFilename());
     }
 
+    @Test
     public void testConfigurationRoundtripWithMultiplePundles() throws Exception {
-        StoreSCM.DescriptorImpl descriptor = jenkins.getDescriptorByType(StoreSCM.DescriptorImpl.class);
+        StoreSCM.DescriptorImpl descriptor = j.jenkins.getDescriptorByType(StoreSCM.DescriptorImpl.class);
         descriptor.setStoreScripts(new StoreScript("theScript", "path"));
 
         List<PundleSpec> pundleSpecs = Arrays.asList(new PundleSpec(PundleType.PACKAGE, "SomePackage"),
@@ -77,6 +88,7 @@ public class StoreSCMConfigurationTest extends JenkinsRule {
         assertEquals("pundles", pundleSpecs, loaded.getPundles());
     }
 
+    @Test
     public void testConfigurationRoundtripWithParcelBuilderFile() throws Exception {
         StoreSCM scm = new StoreSCM("script", "Repo", onePundle(), "\\d+", "Integrated", true, "theFilename");
         StoreSCM loaded = doRoundtripConfiguration(scm);
@@ -85,8 +97,9 @@ public class StoreSCMConfigurationTest extends JenkinsRule {
         assertEquals("parcelBuilderInputFilename", "theFilename", loaded.getParcelBuilderInputFilename());
     }
 
+    @Test
     public void testLookupStoreScript() {
-        StoreSCM.DescriptorImpl descriptor = jenkins.getDescriptorByType(StoreSCM.DescriptorImpl.class);
+        StoreSCM.DescriptorImpl descriptor = j.jenkins.getDescriptorByType(StoreSCM.DescriptorImpl.class);
         final StoreScript script = new StoreScript("otherScript", "otherPath");
         descriptor.setStoreScripts(new StoreScript("theScript", "path"), script);
 
@@ -96,10 +109,10 @@ public class StoreSCMConfigurationTest extends JenkinsRule {
     }
 
     private StoreSCM doRoundtripConfiguration(StoreSCM original) throws Exception {
-        FreeStyleProject p = createFreeStyleProject();
+        FreeStyleProject p = j.createFreeStyleProject();
         p.setScm(original);
 
-        submit(createWebClient().getPage(p, "configure").getFormByName("config"));
+        j.submit(j.createWebClient().getPage(p, "configure").getFormByName("config"));
 
         return (StoreSCM) p.getScm();
     }
