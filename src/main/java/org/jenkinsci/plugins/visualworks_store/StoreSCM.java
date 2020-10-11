@@ -75,7 +75,7 @@ public class StoreSCM extends SCM {
     /**
      * True if a file should be generated that contains a list of pundle versions to
      * load into a new image using a tool such as ParcelBuilder.
-     * <p/>
+     * <p>
      * False if no such file should be generated.
      */
     private final boolean generateParcelBuilderInputFile;

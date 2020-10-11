@@ -29,7 +29,7 @@ import hudson.scm.EditType;
 
 /**
  * Represents a StorePundle that has been changed since the previous build.
- * <p/>
+ * <p>
  * Adapts pundles to Jenkins' AffectedFile API.
  *
  * @author Randy Coulman
@@ -61,14 +61,17 @@ public class ChangedPundle implements ChangeLogSet.AffectedFile {
 
     public String getDescriptor() {
         String descriptor = pundleType.getDescription() + " " + name;
-        if (isDeletion()) return descriptor;
+        if (isDeletion())
+            return descriptor;
 
         return descriptor + " (" + version + ")";
     }
 
     private EditType toEditType(String action) {
-        if (action.equals("added")) return EditType.ADD;
-        if (action.equals("deleted")) return EditType.DELETE;
+        if (action.equals("added"))
+            return EditType.ADD;
+        if (action.equals("deleted"))
+            return EditType.DELETE;
 
         return EditType.EDIT;
     }
