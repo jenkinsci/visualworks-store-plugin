@@ -25,6 +25,7 @@
 <!--
   This view is used to render the installed plugins page.
 -->
+<?jelly escape-by-default='true'?>
 <div>
   Provides SCM support for<a href="http://www.cincomsmalltalk.com">Visualworks
   Smalltalk Store</a>.
