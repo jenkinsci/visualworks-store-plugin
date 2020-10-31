@@ -50,6 +50,9 @@ public class StoreChangeLogParser extends ChangeLogParser {
         blessingMap = new HashMap<String, StoreChangeLogEntry>();
 
         SAXReader reader = new SAXReader();
+        reader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 
         try {
             Document document = reader.read(file);
