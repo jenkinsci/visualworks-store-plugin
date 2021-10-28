@@ -45,7 +45,7 @@
     Integrates Jenkins with Cincom Smalltalk Visualworks Store
   </description>
   <url>
-    http://wiki.jenkins-ci.org/display/JENKINS/Visualworks+Smalltalk+Store+Plugin
+    https://github.com/jenkinsci/visualworks-store-plugin
   </url>
 
   <licenses>
